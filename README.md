@@ -1,1 +1,3 @@
 # Docs
+
+Spectropic.ai Docs
