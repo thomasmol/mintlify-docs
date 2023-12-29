@@ -21,7 +21,7 @@
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Endpoints",
+      "group": "Transcripts",
       "pages": [
         "api-reference/endpoint/get",
         "api-reference/endpoint/find",
