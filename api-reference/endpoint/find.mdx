@@ -1,6 +1,6 @@
 ---
 title: 'Find Transcript'
-openapi: 'GET /v1/transcripts/{id}'
+openapi: 'GET /v1/transcripts{id}'
 ---
 
 Get a single transcript by id. If transcript is not ready yet, the `segments` field will be empty.
@@ -8,8 +8,6 @@ Get a single transcript by id. If transcript is not ready yet, the `segments` fi
 <ParamField path="id" type="uuid" >
   The id of the transcript
 </ParamField>
-
-
 
 <ResponseExample>
 
@@ -32,5 +30,4 @@ Get a single transcript by id. If transcript is not ready yet, the `segments` fi
   ]
 }
 ```
-
 </ResponseExample>

@@ -5,6 +5,9 @@ openapi: 'POST /v1/transcripts'
 
 Create a new transcript. Returns a transcript ID that can be used to check the status of the transcript.
 
+## Request
+### Body
+
 <ParamField body="url" type="string"  required>
     Url of the audio file to be transcribed.
 </ParamField>
@@ -21,13 +24,13 @@ Create a new transcript. Returns a transcript ID that can be used to check the s
     Vocabulary to be used for the transcription. Provide names, acronyms, and other words that are specific to your domain.
 </ParamField>
 
+## Response
 
-<ResponseExample>
-```json Response
-{ 
-  "transcriptId": "someuuid",
-  "status": "started",
-}
-```
+<ResponseField name="transcriptId" type="string">
+    ID of the transcript.
+</ResponseField>
 
-</ResponseExample>
+<ResponseField name="status" type="string">
+    Status of the transcript. Possible values are `started`.
+</ResponseField>
+
