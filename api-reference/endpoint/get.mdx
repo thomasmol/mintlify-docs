@@ -1,4 +1,19 @@
 ---
-title: 'Get Plants'
-openapi: 'GET /plants'
+title: 'Get Transcripts'
+openapi: 'GET /v1/transcripts'
 ---
+
+Get all transcripts, sorted by date descending. If a transcript is not yet complete, the `segments` attribute will be empty.
+
+<ResponseExample>
+
+```json Response
+{ 
+  "transcripts": [
+    {
+        ...
+    }
+  ]
+}
+```
+</ResponseExample>

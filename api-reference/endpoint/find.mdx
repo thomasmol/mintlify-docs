@@ -1,0 +1,36 @@
+---
+title: 'Find Transcript'
+openapi: 'GET /v1/transcripts/{id}'
+---
+
+Get a single transcript by id. If transcript is not ready yet, the `segments` field will be empty.
+
+<ParamField path="id" type="uuid" >
+  The id of the transcript
+</ParamField>
+
+
+
+<ResponseExample>
+
+```json Response
+{ 
+  "transcriptId": "someuuid",
+  "segments": [
+    {
+      "startTime": 0,
+      "endTime": 1.5,
+      "speaker": "speaker1",
+      "text": "Hello, my name is John Doe"
+    },
+    {
+      "startTime": 1.5,
+      "endTime": 2.5,
+      "speaker": "speaker2",
+      "text": "Hello, my name is Jane Doe"
+    }
+  ]
+}
+```
+
+</ResponseExample>

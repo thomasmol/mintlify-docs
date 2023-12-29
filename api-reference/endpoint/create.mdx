@@ -1,4 +1,34 @@
 ---
-title: 'Create Plant'
-openapi: 'POST /plants'
+title: 'Create Transcript'
+openapi: 'POST /v1/transcripts'
 ---
+
+Create a new transcript. Returns a transcript ID that can be used to check the status of the transcript.
+
+<ParamField body="url" type="string"  required>
+    Url of the audio file to be transcribed.
+</ParamField>
+
+<ParamField body="numSpeakers" type="integer">
+    Number of speakers in the audio file. If not provided, the number of speakers is automatically detected.
+</ParamField>
+
+<ParamField body="language" type="string">
+    Language of the audio file. If not provided, the language is automatically detected.
+</ParamField>
+
+<ParamField body="vocabulary" type="string">
+    Vocabulary to be used for the transcription. Provide names, acronyms, and other words that are specific to your domain.
+</ParamField>
+
+
+<ResponseExample>
+
+```json Response
+{ 
+  "transcriptId": "someuuid",
+  "status": "started",
+}
+```
+
+</ResponseExample>
