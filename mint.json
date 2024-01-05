@@ -2,18 +2,34 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Spectropic",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/images/logo-text-inverted.svg",
+    "light": "/images/logo-text.svg"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/images/logo.svg",
+  "metadata": {
+    "og:image": "/images/ogimage.png",
+    "title": "Spectropic Docs",
+    "description": "Spectropic is a platform for automatic speech recognition (ASR)."
+  },
   "colors": {
     "primary": "#202020",
     "light": "#FDFDFD",
-    "dark": "#FDFDFD",
+    "dark": "#202020",
     "anchors": {
       "from": "#202020",
-      "to": "#000"
+      "to": "#202020"
     }
+  },
+  "topbarLinks": [
+    {
+      "url": "https://dashboard.spectropic.ai/",
+      "name": "Dashboard"
+    }
+  ],
+  "topbarCtaButton": {
+    "type": "link",
+    "url": "https://dashboard.spectropic.ai/",
+    "name": "Sign up"
   },
   "navigation": [
     {
