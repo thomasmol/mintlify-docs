@@ -1,0 +1,110 @@
+openapi: 3.1.0
+info:
+  title: Spectropic API
+  version: 1.0.0
+servers:
+  - url: https://api.spectropic.ai
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Transcripts:
+      type: array
+      items:
+        $ref: "#/components/schemas/Transcript"
+    Transcript:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the transcript
+        segments:
+          type: array
+          description: Text content of the transcript
+          items: 
+            type: object
+            properties:
+              start: 
+                type: number
+              end:
+                type: number
+              text:
+                type: string
+              speaker:
+                type: string
+              words:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    start: 
+                      type: number
+                    end:
+                      type: number
+                    word:
+                      type: string
+              
+security:
+  - bearerAuth: []
+paths:
+  /v1/transcripts:
+    post:
+      summary: Creates a new transcript
+      operationId: createTranscript
+      tags:
+        - Transcripts
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                numSpeakers:
+                  type: integer
+                language:
+                  type: string
+                vocabulary:
+                  type: string
+                webhook:
+                  type: string
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                numSpeakers:
+                  type: integer
+                language:
+                  type: string
+                vocabulary:
+                  type: string
+                webhook:
+                  type: string
+      responses:
+        '200':
+          description: Returns a status of the transcribe job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+webhooks:
+  newTranscript:
+    post:
+      requestBody:
+        description: Information about a new pet in the system
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transcript"
+
