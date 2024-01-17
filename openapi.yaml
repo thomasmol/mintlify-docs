@@ -19,14 +19,29 @@ components:
       properties:
         id:
           type: string
-          description: Unique identifier for the transcript
+          description: Unique identifier (uuid) for the transcript
+        numSpeakers:
+          type: integer
+          description: Number of speakers in the transcript. Either detected value if input was null or value is equal to user input
+        language:
+          type: string
+          description: Language of the transcript. Either detected value if input was null or value is equal to user input. In form of ISO 639-1 code, like "en" or "de"
+        vocabulary:
+          type: string
+          description: Vocabulary used for the transcript. Equal to user input.
+        inferenceStart:
+          type: number
+          description: Timestamp of the start of the inference
+        inferenceEnd:
+          type: number
+          description: Timestamp of the end of the inference
         segments:
           type: array
-          description: Text content of the transcript
-          items: 
+          description: Array of segments, each segment contains spoken text, speaker, start and end time in seconds with decimal and a list of word objects (view below)
+          items:
             type: object
             properties:
-              start: 
+              start:
                 type: number
               end:
                 type: number
@@ -39,13 +54,13 @@ components:
                 items:
                   type: object
                   properties:
-                    start: 
+                    start:
                       type: number
                     end:
                       type: number
                     word:
                       type: string
-              
+
 security:
   - bearerAuth: []
 paths:
@@ -65,14 +80,32 @@ paths:
               properties:
                 url:
                   type: string
+                  description: Direct URL of an audio or video file. Max 2GB. Make sure to use a publicly accessible URL
+                  examples: 
+                    - "https://example.com/file.mp3"
                 numSpeakers:
                   type: integer
+                  description: Number of speakers in the transcript. If null, the number of speakers will be detected automatically
+                  examples:
+                    - 2
                 language:
                   type: string
+                  description: Language of the transcript. If null, the language will be detected automatically. In form of ISO 639-1 code, like "en" or "de"
+                  examples:
+                    - "en"
                 vocabulary:
                   type: string
+                  description: Vocabulary used for the transcript. Similar to the "initial_prompt" parameter of Whisper. Provide acronyms, names and foreign words
+                  examples:
+                    - "Spectropic, AI, LLama, Mistral, Whisper."
                 webhook:
                   type: string
+                  description: URL to which the transcript will be sent once it is ready. Make sure to use a publicly accessible URL
+                  examples:
+                    - "https://example.com/webhook"
+              required:
+                - url
+                - webhook
           multipart/form-data:
             schema:
               type: object
@@ -80,31 +113,57 @@ paths:
                 file:
                   type: string
                   format: binary
+                  description: Audio or video file. Max. 100 MB (will be increased soon)
+                  examples:
+                    - "file.mp3"
                 numSpeakers:
                   type: integer
+                  description: Number of speakers in the transcript. If null, the number of speakers will be detected automatically
+                  examples:
+                    - 2
                 language:
                   type: string
+                  description: Language of the transcript. If null, the language will be detected automatically. In form of ISO 639-1 code, like "en" or "de"
+                  examples:
+                    - "en"
                 vocabulary:
                   type: string
+                  description: Vocabulary used for the transcript. Similar to the "initial_prompt" parameter of Whisper. Provide acronyms, names and foreign words
+                  examples:
+                      - "Spectropic, AI, LLama, Mistral, Whisper."
                 webhook:
                   type: string
+                  description: URL to which the transcript will be sent once it is ready. Make sure to use a publicly accessible URL
+                  examples:
+                      - "https://example.com/webhook"
+              required:
+                - file
+                - webhook
       responses:
-        '200':
+        "200":
           description: Returns a status of the transcribe job
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  status: 
+                  status:
+                    type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
                     type: string
 webhooks:
   newTranscript:
     post:
       requestBody:
-        description: Information about a new pet in the system
+        description: Transcript object
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/Transcript"
-

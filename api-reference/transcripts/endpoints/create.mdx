@@ -1,0 +1,31 @@
+---
+title: 'Create Transcript'
+openapi: 'POST /v1/transcripts'
+---
+
+Creates a new transcribe job. Sends the finished transcript to the provided webhook URL.
+
+<Tip>
+    This endpoint supports both a remote file from URL and a local file from multipart form data.
+</Tip>
+
+## Transcribe a Remote File (from url)
+
+If you have a media file accessible via a URL, you can provide the URL to the file in the request body with the header `Content-Type` set to `application/json`.
+
+Typically you would use this method if you have a file stored in a cloud storage service such as Amazon S3.
+
+<Warning>Make sure the URL to the file is publicly accessible, otherwise our endpoint cannot read the file</Warning>
+
+
+## Transcribe a Local File
+
+If you have a media file stored locally, you can provide the file in the request body with the header `Content-Type` set to `multipart/form-data`.
+
+Typically you would use this method if you have a file stored on a local machine or device.
+
+## Receiving the transcript (Webhook)
+
+The webhook URL is where the finished transcript will be sent. The transcript will be sent as a JSON object in the request body.
+
+<Warning>Make sure the webhook URL is publicly accessible, otherwise our endpoint cannot send the transcript</Warning>

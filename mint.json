@@ -39,12 +39,8 @@
     {
       "group": "Transcripts",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/find",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/createFromLocalFile",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "api-reference/transcripts/endpoints/create",
+        "api-reference/transcripts/schemas/transcript"
       ]
     }
   ],
