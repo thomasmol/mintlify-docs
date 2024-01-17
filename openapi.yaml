@@ -1,0 +1,169 @@
+openapi: 3.1.0
+info:
+  title: Spectropic API
+  version: 1.0.0
+servers:
+  - url: https://api.spectropic.ai
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Transcripts:
+      type: array
+      items:
+        $ref: "#/components/schemas/Transcript"
+    Transcript:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier (uuid) for the transcript
+        numSpeakers:
+          type: integer
+          description: Number of speakers in the transcript. Either detected value if input was null or value is equal to user input
+        language:
+          type: string
+          description: Language of the transcript. Either detected value if input was null or value is equal to user input. In form of ISO 639-1 code, like "en" or "de"
+        vocabulary:
+          type: string
+          description: Vocabulary used for the transcript. Equal to user input.
+        inferenceStart:
+          type: number
+          description: Timestamp of the start of the inference
+        inferenceEnd:
+          type: number
+          description: Timestamp of the end of the inference
+        segments:
+          type: array
+          description: Array of segments, each segment contains spoken text, speaker, start and end time in seconds with decimal and a list of word objects (view below)
+          items:
+            type: object
+            properties:
+              start:
+                type: number
+              end:
+                type: number
+              text:
+                type: string
+              speaker:
+                type: string
+              words:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    start:
+                      type: number
+                    end:
+                      type: number
+                    word:
+                      type: string
+
+security:
+  - bearerAuth: []
+paths:
+  /v1/transcripts:
+    post:
+      summary: Creates a new transcript
+      operationId: createTranscript
+      tags:
+        - Transcripts
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: Direct URL of an audio or video file. Max 2GB. Make sure to use a publicly accessible URL
+                  examples: 
+                    - "https://example.com/file.mp3"
+                numSpeakers:
+                  type: integer
+                  description: Number of speakers in the transcript. If null, the number of speakers will be detected automatically
+                  examples:
+                    - 2
+                language:
+                  type: string
+                  description: Language of the transcript. If null, the language will be detected automatically. In form of ISO 639-1 code, like "en" or "de"
+                  examples:
+                    - "en"
+                vocabulary:
+                  type: string
+                  description: Vocabulary used for the transcript. Similar to the "initial_prompt" parameter of Whisper. Provide acronyms, names and foreign words
+                  examples:
+                    - "Spectropic, AI, LLama, Mistral, Whisper."
+                webhook:
+                  type: string
+                  description: URL to which the transcript will be sent once it is ready. Make sure to use a publicly accessible URL
+                  examples:
+                    - "https://example.com/webhook"
+              required:
+                - url
+                - webhook
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Audio or video file. Max. 100 MB (will be increased soon)
+                  examples:
+                    - "file.mp3"
+                numSpeakers:
+                  type: integer
+                  description: Number of speakers in the transcript. If null, the number of speakers will be detected automatically
+                  examples:
+                    - 2
+                language:
+                  type: string
+                  description: Language of the transcript. If null, the language will be detected automatically. In form of ISO 639-1 code, like "en" or "de"
+                  examples:
+                    - "en"
+                vocabulary:
+                  type: string
+                  description: Vocabulary used for the transcript. Similar to the "initial_prompt" parameter of Whisper. Provide acronyms, names and foreign words
+                  examples:
+                      - "Spectropic, AI, LLama, Mistral, Whisper."
+                webhook:
+                  type: string
+                  description: URL to which the transcript will be sent once it is ready. Make sure to use a publicly accessible URL
+                  examples:
+                      - "https://example.com/webhook"
+              required:
+                - file
+                - webhook
+      responses:
+        "200":
+          description: Returns a status of the transcribe job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+webhooks:
+  newTranscript:
+    post:
+      requestBody:
+        description: Transcript object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transcript"

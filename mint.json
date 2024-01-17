@@ -39,21 +39,12 @@
     {
       "group": "Transcripts",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/find",
-        "api-reference/endpoint/create"
+        "api-reference/transcripts/endpoints/create",
+        "api-reference/transcripts/schemas/transcript"
       ]
     }
   ],
-  "api": {
-    "baseUrl": "https://api.spectropic.ai",
-    "auth": {
-      "method": "bearer"
-    },
-    "playground": {
-      "mode": "simple"
-    }
-  },
+  "openapi": ["/openapi.yaml"],
   "footerSocials": {
     "twitter": "https://twitter.com/thomas_mol",
     "github": "https://github.com/thomasmol",
