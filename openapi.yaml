@@ -37,14 +37,19 @@ components:
             properties:
               start:
                 type: number
+                description: Start time of the segment in seconds with decimal
               end:
                 type: number
+                description: End time of the segment in seconds with decimal
               text:
                 type: string
+                description: Spoken text of the segment
               speaker:
                 type: string
+                description: Speaker of the segment
               avg_logprob:
                 type: number
+                description: Average log probability of the segment
               words:
                 type: array
                 items:
@@ -52,12 +57,16 @@ components:
                   properties:
                     start:
                       type: number
+                      description: Start time of the word in seconds with decimal
                     end:
                       type: number
+                      description: End time of the word in seconds with decimal
                     word:
                       type: string
+                      description: Spoken word
                     probability:
                       type: number
+                      description: Probability of the word, can also be described as confidence score
 
 security:
   - bearerAuth: []
