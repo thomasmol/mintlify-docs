@@ -19,9 +19,11 @@ components:
       properties:
         numSpeakers:
           type: integer
+          example: 2
           description: Number of speakers in the transcript. Either detected value if input was null or value is equal to user input
         language:
           type: string
+          example: "en"
           description: Language of the transcript. Either detected value if input was null or value is equal to user input. In form of ISO 639-1 code, like "en" or "de"
         inferenceStart:
           type: string
@@ -42,7 +44,7 @@ components:
               start:
                 type: number
                 format: float
-                example: 0.0
+                example: 0.1
                 description: Start time of the segment in seconds with decimal
               end:
                 type: number
@@ -68,7 +70,7 @@ components:
                     start:
                       type: number
                       format: float
-                      example: 0.0
+                      example: 0.1
                       description: Start time of the word in seconds with decimal
                     end:
                       type: number
