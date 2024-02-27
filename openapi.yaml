@@ -19,7 +19,7 @@ components:
       properties:
         id:
           type: string
-          description: Unique identifier (uuid) for the transcript
+          description: Unique identifier for the transcript
         numSpeakers:
           type: integer
           description: Number of speakers in the transcript. Either detected value if input was null or value is equal to user input
@@ -49,6 +49,8 @@ components:
                 type: string
               speaker:
                 type: string
+              avg_logprob:
+                type: number
               words:
                 type: array
                 items:
@@ -60,11 +62,13 @@ components:
                       type: number
                     word:
                       type: string
+                    probability:
+                      type: number
 
 security:
   - bearerAuth: []
 paths:
-  /v1/transcripts:
+  /v1/transcribe:
     post:
       summary: Creates a new transcript
       operationId: createTranscript
