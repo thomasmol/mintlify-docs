@@ -68,6 +68,24 @@ components:
 security:
   - bearerAuth: []
 paths:
+  /v1/test:
+    get:
+      summary: Test endpoint
+      operationId: test
+      tags:
+        - Test
+      responses:
+        "200":
+          description: Returns a test message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  success:
+                    type: boolean
   /v1/transcribe:
     post:
       summary: Creates a new transcript
