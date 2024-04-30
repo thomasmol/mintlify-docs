@@ -107,6 +107,36 @@ paths:
                     type: string
                   success:
                     type: boolean
+    post:
+      summary: Test endpoint
+      operationId: test
+      tags:
+        - Test
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                webhook:
+                  type: string
+                  description: URL to which the test message will be sent
+                  examples:
+                    - "https://quick-ability-06.webhook.cool"
+      responses:
+        "200":
+          description: Returns a test message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  success:
+                    type: boolean
   /v1/transcribe:
     post:
       summary: Creates a new transcript

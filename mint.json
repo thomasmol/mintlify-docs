@@ -41,7 +41,8 @@
       "pages": [
         "api-reference/transcripts/endpoints/create",
         "api-reference/transcripts/schemas/transcript",
-        "api-reference/test"
+        "api-reference/test",
+        "api-reference/test-webhook"
       ]
     }
   ],

@@ -15,12 +15,16 @@ If you have a media file accessible via a URL, you can provide the URL to the fi
 
 Typically you would use this method if you have a file stored in a cloud storage service such as Amazon S3.
 
+Use the `url` field in the body of the request to provide the URL to the file.
+
 <Warning>Make sure the URL to the file is publicly accessible, otherwise our endpoint cannot read the file</Warning>
 
 
 ## Transcribe a Local File
 
 If you have a media file stored locally, you can provide the file in the request body with the header `Content-Type` set to `multipart/form-data`.
+
+Use the `file` field in the body of the request to upload the file.
 
 Typically you would use this method if you have a file stored on a local machine or device.
 
