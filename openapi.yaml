@@ -10,6 +10,51 @@ components:
       type: http
       scheme: bearer
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345678-1234-1234-1234-123456789012"
+        status:
+          type: string
+          example: "succeeded"
+        eventName:
+          type: string
+          example: "whisper_diarization"
+          description: Name of the event
+        quantity:
+          type: integer
+          example: 126
+          description: Quantity of the event, e.g. number of seconds of audio, or number of tokens     
+        output:
+          type: object
+          description: Output of the job, saved as JSON, deleted after 24 hours
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00Z"
+          description: Timestamp of the creation of the job
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2024-01-01T00:00:00Z"
+          description: Timestamp of the last update of the job
+        
     Transcripts:
       type: array
       items:
@@ -17,6 +62,10 @@ components:
     Transcript:
       type: object
       properties:
+        jobId:
+          type: string
+          example: "12345678-1234-1234-1234-123456789012"
+          description: Unique identifier of the transcript job
         numSpeakers:
           type: integer
           example: 2
@@ -107,6 +156,12 @@ paths:
                     type: string
                   success:
                     type: boolean
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       summary: Test endpoint
       operationId: test
@@ -154,7 +209,7 @@ paths:
                 url:
                   type: string
                   description: Direct URL of an audio or video file. Max 2GB. Make sure to use a publicly accessible URL
-                  examples: 
+                  examples:
                     - "https://example.com/file.mp3"
                 numSpeakers:
                   type: integer
@@ -203,12 +258,12 @@ paths:
                   type: string
                   description: Vocabulary used for the transcript. Similar to the "initial_prompt" parameter of Whisper. Provide acronyms, names and foreign words
                   examples:
-                      - "Spectropic, AI, LLama, Mistral, Whisper."
+                    - "Spectropic, AI, LLama, Mistral, Whisper."
                 webhook:
                   type: string
                   description: URL to which the transcript will be sent once it is ready. Make sure to use a publicly accessible URL
                   examples:
-                      - "https://example.com/webhook"
+                    - "https://example.com/webhook"
               required:
                 - file
                 - webhook
@@ -220,17 +275,69 @@ paths:
               schema:
                 type: object
                 properties:
+                  jobId:
+                    type: string
+                    example: "12345678-1234-1234-1234-123456789012"
+                  message:
+                    type: string
+                    example: "Job added to queue"
                   status:
                     type: string
+                    example: "pending"
         "400":
           description: Bad request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+                $ref: "#/components/schemas/ErrorResponse"
+  /v1/jobs:
+    get:
+      summary: Get all jobs
+      operationId: getJobs
+      tags:
+        - Jobs
+      responses:
+        "200":
+          description: Returns a list of all jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Job"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /v1/jobs/{jobId}:
+    get:
+      summary: Get all jobs
+      operationId: getJobs
+      tags:
+        - Jobs
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          description: Unique identifier of the job
+          schema:
+            type: string
+            example: "12345678-1234-1234-1234-123456789012"
+      responses:
+        "200":
+          description: Returns a single job by ID
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Job"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 webhooks:
   newTranscript:
     post:

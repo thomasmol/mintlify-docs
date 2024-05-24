@@ -37,12 +37,14 @@
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Transcripts",
+      "group": "API Reference",
       "pages": [
-        "api-reference/transcripts/endpoints/create",
-        "api-reference/transcripts/schemas/transcript",
         "api-reference/test",
-        "api-reference/test-webhook"
+        "api-reference/test-webhook",
+        "api-reference/transcribe",
+        "schemas/transcript",
+        "api-reference/list-jobs",
+        "api-reference/retrieve-job"
       ]
     }
   ],
