@@ -22,6 +22,10 @@
   },
   "topbarLinks": [
     {
+      "url": "mailto:spectropic@thomasmol.com",
+      "name": "Support"
+    },
+    {
       "url": "https://dashboard.spectropic.ai/",
       "name": "Dashboard"
     }
@@ -29,7 +33,7 @@
   "topbarCtaButton": {
     "type": "link",
     "url": "https://dashboard.spectropic.ai/",
-    "name": "Sign up"
+    "name": "Get access"
   },
   "navigation": [
     {
