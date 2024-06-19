@@ -31,7 +31,6 @@
     }
   ],
   "topbarCtaButton": {
-    "type": "link",
     "url": "https://dashboard.spectropic.ai/",
     "name": "Get access"
   },
