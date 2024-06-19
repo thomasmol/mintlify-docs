@@ -34,7 +34,7 @@
   "navigation": [
     {
       "group": "Documentation",
-      "pages": ["api-reference/introduction"]
+      "pages": ["introduction"]
     },
     {
       "group": "API Reference",
@@ -46,6 +46,10 @@
         "api-reference/list-jobs",
         "api-reference/retrieve-job"
       ]
+    },
+    {
+      "group": "Resources",
+      "pages": ["resources/languages"]
     }
   ],
   "openapi": ["/openapi.yaml"],
