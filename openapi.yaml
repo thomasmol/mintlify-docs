@@ -211,6 +211,11 @@ paths:
                   description: Direct URL of an audio or video file. Max 2GB. Make sure to use a publicly accessible URL
                   examples:
                     - "https://example.com/file.mp3"
+                model:
+                  type: string
+                  description: Model used for the transcript. 'standard' or 'enhanced', default is 'standard'. 
+                  examples:
+                    - 'standard'
                 numSpeakers:
                   type: integer
                   description: Number of speakers in the transcript. If null, the number of speakers will be detected automatically
@@ -233,7 +238,6 @@ paths:
                     - "https://example.com/webhook"
               required:
                 - url
-                - webhook
           multipart/form-data:
             schema:
               type: object
@@ -244,6 +248,11 @@ paths:
                   description: Audio or video file. Max. 100 MB (contact if need more)
                   examples:
                     - "file.mp3"
+                model:
+                  type: string
+                  description: Model used for the transcript. 'standard' or 'enhanced', default is 'standard'. 
+                  examples:
+                    - 'standard'
                 numSpeakers:
                   type: integer
                   description: Number of speakers in the transcript. If null, the number of speakers will be detected automatically
@@ -266,7 +275,6 @@ paths:
                     - "https://example.com/webhook"
               required:
                 - file
-                - webhook
       responses:
         "200":
           description: Returns a status of the transcribe job
