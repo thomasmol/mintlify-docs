@@ -1,0 +1,29 @@
+---
+title: 'Enhanced'
+description: 'The enhanced model is more accurate but slower.'
+icon: 'wand-magic-sparkles'
+---
+
+The enhanced model is based on the standard model, but does LLM-based post processing to improve the accuracy of the transcription, get more detailed diarization segments, and infer labels or names of speakers.
+
+The enhanced model can work well for languages that are lower in the accuracy of the standard model.
+
+<Warning>Unlike the standard model, the enhanced model does not output word level timestamps and confidence scores.</Warning>
+
+Costs are `$0.0005` per second of audio equivalent to `$1.80` per hour of audio.
+
+### Example
+
+```bash Request Example
+  curl  --request POST \
+    --url https://api.spectropic.ai/v1/transcribe \
+    --header: 'Authorization: Bearer <apikey>' \
+    --header: 'Content-Type: application/json' \
+    --data '{
+      "url": "https://example.com/file.mp3",
+      "model": "enhanced",
+      "numSpeakers": 2,
+      "language": "en",
+      "vocabulary": "Spectropic, AI, LLama, Mistral, Whisper."
+    }'
+``` 

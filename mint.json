@@ -40,6 +40,10 @@
       "pages": ["introduction", "models"]
     },
     {
+      "group": "Models",
+      "pages": ["models/standard", "models/enhanced"]
+    },
+    {
       "group": "API Reference",
       "pages": [
         "api-reference/test",

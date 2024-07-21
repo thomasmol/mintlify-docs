@@ -1,0 +1,26 @@
+---
+title: 'Standard'
+description: 'The standard model is the default model and is suitable for most use cases.'
+icon: 'comments'
+---
+
+The standard model is based on Whisper large-v3 for transcription and pyannote.audio 3.3.0 for diraization. It is suitable for most use cases and works well for languages like English, German, French, Spanish, Italian, and Dutch.
+
+Costs are `$0.0001` per second of audio equivalent to `$0.36` per hour of audio.
+
+### Example
+
+```bash Request Example
+  curl  --request POST \
+    --url https://api.spectropic.ai/v1/transcribe \
+    --header: 'Authorization: Bearer <apikey>' \
+    --header: 'Content-Type: application/json' \
+    --data '{
+      "url": "https://example.com/file.mp3",
+      "model": "standard",
+      "numSpeakers": 2,
+      "language": "en",
+      "vocabulary": "Spectropic, AI, LLama, Mistral, Whisper."
+    }'
+```
+
