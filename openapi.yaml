@@ -298,6 +298,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /v1/analyze:
+    post:
+      summary: Analyze transcript
+      operationId: analyzeTranscript
+      tags:
+        - Transcripts
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Transcript text
+                action:
+                  type: string
+                  description: Action to be performed on the transcript. Can be 'summarize', (more actions coming soon).
+                  examples:
+                    - 'summarize'
+      responses:
+        "200":
+          description: Returns a status of the transcribe job
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    example: "12345678-1234-1234-1234-123456789012"
+                  text:
+                    type: string
+                    example: "Summarized text"
+                  status:
+                    type: string
+                    example: "succeeded"
   /v1/jobs:
     get:
       summary: Get all jobs

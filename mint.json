@@ -49,9 +49,10 @@
         "api-reference/test",
         "api-reference/test-webhook",
         "api-reference/transcribe",
-        "schemas/transcript",
+        "api-reference/analyze",
         "api-reference/list-jobs",
-        "api-reference/retrieve-job"
+        "api-reference/retrieve-job",
+        "schemas/transcript"
       ]
     },
     {
