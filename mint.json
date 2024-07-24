@@ -65,5 +65,10 @@
     "twitter": "https://twitter.com/thomas_mol",
     "github": "https://github.com/thomasmol",
     "linkedin": "https://www.linkedin.com/in/thomas-mol"
+  },
+  "analytics": {
+    "plausible": {
+      "domain": "docs.spectropic.ai"
+    }
   }
 }
