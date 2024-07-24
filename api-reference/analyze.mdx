@@ -2,3 +2,16 @@
 title: 'Analyze Transcript'
 openapi: 'POST /v1/analyze'
 ---
+
+Analyze a transcript to extract information from it. The analyze endpoint supports 1 action (more coming soon):
+
+- Summarize: Extracts the main points of a transcript and returns a summary of the conversation.
+
+No need to poll the status of the job, the analyze endpoint will return the result immediately.
+
+Currently the endpoint is based on the GPT-4o API with a custom system prompt based on the chosen action.
+
+You must pre-process your transcript before sending it to the endpoint. The endpoint will not do any pre-processing.
+
+<Warning>The endpoint is currently in beta and may change in the future.</Warning>
+

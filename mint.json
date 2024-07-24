@@ -30,30 +30,46 @@
       "name": "Dashboard"
     }
   ],
+
   "topbarCtaButton": {
     "url": "https://dashboard.spectropic.ai/",
     "name": "Get access"
   },
   "navigation": [
     {
-      "group": "Documentation",
+      "group": "",
       "pages": ["introduction", "models"]
     },
     {
       "group": "Models",
-      "pages": ["models/standard", "models/enhanced"]
+      "pages": [
+        {
+          "group": "Speech to Text",
+          "icon": "messages",
+          "pages": ["models/transcribe/standard", "models/transcribe/enhanced"]
+        },
+        {
+          "group": "Analyze",
+          "icon": "sparkles",
+          "pages": ["models/analyze/standard"]
+        }
+      ]
     },
     {
-      "group": "API Reference",
-      "pages": [
-        "api-reference/test",
-        "api-reference/test-webhook",
-        "api-reference/transcribe",
-        "api-reference/analyze",
-        "api-reference/list-jobs",
-        "api-reference/retrieve-job",
-        "schemas/transcript"
-      ]
+      "group": "Test",
+      "pages": ["api-reference/test", "api-reference/test-webhook"]
+    },
+    {
+      "group": "Speech to Text",
+      "pages": ["api-reference/transcribe", "api-reference/schemas/transcript"]
+    },
+    {
+      "group": "Analyze",
+      "pages": ["api-reference/analyze"]
+    },
+    {
+      "group": "Jobs",
+      "pages": ["api-reference/list-jobs", "api-reference/retrieve-job"]
     },
     {
       "group": "Resources",

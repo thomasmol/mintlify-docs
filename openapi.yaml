@@ -320,6 +320,14 @@ paths:
                   description: Action to be performed on the transcript. Can be 'summarize', (more actions coming soon).
                   examples:
                     - 'summarize'
+                language:
+                  type: string
+                  description: Language of the transcript. If null, the language will be detected automatically. In form of ISO 639-1 code, like "en" or "de"
+                  examples:
+                    - "en"
+              required:
+                - text
+                - action     
       responses:
         "200":
           description: Returns a status of the transcribe job

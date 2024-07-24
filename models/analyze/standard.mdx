@@ -1,0 +1,26 @@
+---
+title: 'Standard'
+description: ''
+icon: 'file-lines'
+---
+
+The standard model is based on the GPT-4o API with a custom system prompt based on the chosen UserActivation.
+
+Costs are `$0.005` per 1k of input tokens and `$0.015` per 1k of output tokens.
+
+A transcript of a 30 minute conversation is around 4k tokens (input tokens). The summary output for such a transcript is around 1k tokens (output tokens). Resulting in an estimated total cost of `$0.035`.
+
+### Example
+
+```bash Request Example
+  curl  --request POST \
+    --url https://api.spectropic.ai/v1/analyze \
+    --header: 'Authorization: Bearer <apikey>' \
+    --header: 'Content-Type: application/json' \
+    --data '{
+      "text": "Hello, my name is John and I live in New York.",
+      "language": "en",
+      "action": "summarize"
+    }'
+```
+
