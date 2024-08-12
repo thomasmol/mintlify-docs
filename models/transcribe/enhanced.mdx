@@ -8,7 +8,10 @@ The enhanced model is based on the standard model, but does LLM-based post proce
 
 The enhanced model can work well for languages that are lower in the accuracy of the standard model.
 
-<Warning>Unlike the standard model, the enhanced model does not output word level timestamps and confidence scores.</Warning>
+Limitations compared to the standard model:
+* The enhanced model is slower.
+* Unlike the standard model, the enhanced model does not output word level timestamps and confidence scores.
+* Max input audio input duration is currently *60 minutes* (this will be increased in the near future).
 
 Costs are `$0.0005` per second of audio equivalent to `$1.80` per hour of audio.
 

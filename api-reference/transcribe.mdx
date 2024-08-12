@@ -3,11 +3,15 @@ title: 'Create Transcript'
 openapi: 'POST /v1/transcribe'
 ---
 
-Creates a new transcribe job. Sends the finished transcript to the provided webhook URL.
+Creates a new transcribe job. Sends the finished transcript to the provided webhook URL. 
 
 <Tip>
     This endpoint supports both a remote file from URL and a local file from multipart form data.
 </Tip>
+
+<Warning>
+    If you use the enhanced model the max audio input duration is currently *60 minutes* (this will be increased in the near future).
+</Warning>
 
 ## Transcribe a Remote File (from url)
 
