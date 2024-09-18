@@ -208,7 +208,7 @@ paths:
               properties:
                 url:
                   type: string
-                  description: Direct URL of an audio or video file. Max 2GB. Make sure to use a publicly accessible URL
+                  description: Direct URL of an audio or video file. Max 2GB. Make sure to use a publicly accessible URL.
                   examples:
                     - "https://example.com/file.mp3"
                 model:
@@ -353,13 +353,13 @@ paths:
         - Jobs
       responses:
         "200":
-          description: Returns a list of all jobs
+          description: Returns a list of all jobs, without the output
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  jobs:
+                  items:
                     type: array
                     items:
                       $ref: "#/components/schemas/Job"
