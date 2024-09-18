@@ -32,18 +32,18 @@ components:
           example: "12345678-1234-1234-1234-123456789012"
         status:
           type: string
-          example: "succeeded"
-        eventName:
+          example: "succeeded"  
+        action:
           type: string
-          example: "whisper_diarization"
-          description: Name of the event
-        quantity:
-          type: integer
-          example: 126
-          description: Quantity of the event, e.g. number of seconds of audio, or number of tokens     
+          example: "transcribe"
+          description: Action of the job
+        model:
+          type: string
+          example: "standard"
+          description: Model of the job
         output:
           type: object
-          description: Output of the job, saved as JSON, deleted after 24 hours
+          description: Output of the job, saved as JSON, deleted after 24 hours. Only available if job is finished.
         createdAt:
           type: string
           format: date-time
