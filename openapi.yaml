@@ -1,16 +1,16 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
   title: Spectropic API
-  version: 1.0.0
+  version: "1.0"
+  description: API for audio transcription with diarization
+
 servers:
   - url: https://api.spectropic.ai
+    description: Version 1 API
+
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
   schemas:
-    ErrorResponse:
+    Error:
       type: object
       properties:
         message:
@@ -20,45 +20,46 @@ components:
           items:
             type: object
             properties:
-              field:
-                type: string
               message:
                 type: string
-    Job:
+              field:
+                type: string
+
+    TranscriptionJob:
       type: object
       properties:
         id:
           type: string
-          example: "12345678-1234-1234-1234-123456789012"
+          format: uuid
         status:
           type: string
-          example: "succeeded"  
-        action:
-          type: string
-          example: "transcribe"
-          description: Action of the job
+          enum: [created, queued, running, succeeded, failed]
         model:
           type: string
-          example: "standard"
-          description: Model of the job
-        output:
-          type: object
-          description: Output of the job, saved as JSON, deleted after 24 hours. Only available if job is finished.
+        action:
+          type: string
         createdAt:
           type: string
           format: date-time
-          example: "2024-01-01T00:00:00Z"
-          description: Timestamp of the creation of the job
         updatedAt:
           type: string
           format: date-time
-          example: "2024-01-01T00:00:00Z"
-          description: Timestamp of the last update of the job
-        
-    Transcripts:
-      type: array
-      items:
-        $ref: "#/components/schemas/Transcript"
+        output:
+          type: object
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/Transcript"
+
+    JobsList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/TranscriptionJob"
+        total:
+          type: integer
+
     Transcript:
       type: object
       properties:
@@ -135,72 +136,11 @@ components:
                       example: 0.9
                       description: Probability of the word, can also be described as confidence score
 
-security:
-  - bearerAuth: []
 paths:
-  /v1/test:
-    get:
-      summary: Test endpoint
-      operationId: test
-      tags:
-        - Test
-      responses:
-        "200":
-          description: Returns a test message
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  success:
-                    type: boolean
-        "400":
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-    post:
-      summary: Test endpoint
-      operationId: test
-      tags:
-        - Test
-      requestBody:
-        description: Optional description in *Markdown*
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                webhook:
-                  type: string
-                  description: URL to which the test message will be sent
-                  examples:
-                    - "https://quick-ability-06.webhook.cool"
-      responses:
-        "200":
-          description: Returns a test message
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  success:
-                    type: boolean
   /v1/transcribe:
     post:
-      summary: Creates a new transcript
-      operationId: createTranscript
-      tags:
-        - Transcripts
+      summary: Create a new transcription job
       requestBody:
-        description: Optional description in *Markdown*
-        required: true
         content:
           application/json:
             schema:
@@ -208,36 +148,23 @@ paths:
               properties:
                 url:
                   type: string
-                  description: Direct URL of an audio or video file. Max 2GB. Make sure to use a publicly accessible URL. Must be served over HTTPS.
-                  examples:
-                    - "https://example.com/file.mp3"
-                model:
-                  type: string
-                  description: Model used for the transcript. 'standard' or 'enhanced', default is 'standard'. 
-                  examples:
-                    - 'standard'
-                numSpeakers:
-                  type: integer
-                  description: Number of speakers in the transcript. If null, the number of speakers will be detected automatically
-                  examples:
-                    - 2
-                language:
-                  type: string
-                  description: Language of the transcript. If null, the language will be detected automatically. In form of ISO 639-1 code, like "en" or "de"
-                  examples:
-                    - "en"
-                vocabulary:
-                  type: string
-                  description: Vocabulary used for the transcript. Similar to the "initial_prompt" parameter of Whisper. Provide acronyms, names and foreign words
-                  examples:
-                    - "Spectropic, AI, LLama, Mistral, Whisper."
+                  format: uri
                 webhook:
                   type: string
-                  description: URL to which the transcript will be sent once it is ready. Make sure to use a publicly accessible URL
-                  examples:
-                    - "https://example.com/webhook"
-              required:
-                - url
+                  format: uri
+                vocabulary:
+                  type: string
+                  maxLength: 512
+                language:
+                  type: string
+                model:
+                  type: string
+                  enum: [standard, enhanced]
+                  default: standard
+                numSpeakers:
+                  type: integer
+                  minimum: 1
+                  maximum: 25
           multipart/form-data:
             schema:
               type: object
@@ -245,163 +172,131 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: Audio or video file. Max. 100 MB (contact if need more)
-                  examples:
-                    - "file.mp3"
-                model:
-                  type: string
-                  description: Model used for the transcript. 'standard' or 'enhanced', default is 'standard'. 
-                  examples:
-                    - 'standard'
-                numSpeakers:
-                  type: integer
-                  description: Number of speakers in the transcript. If null, the number of speakers will be detected automatically
-                  examples:
-                    - 2
-                language:
-                  type: string
-                  description: Language of the transcript. If null, the language will be detected automatically. In form of ISO 639-1 code, like "en" or "de"
-                  examples:
-                    - "en"
-                vocabulary:
-                  type: string
-                  description: Vocabulary used for the transcript. Similar to the "initial_prompt" parameter of Whisper. Provide acronyms, names and foreign words
-                  examples:
-                    - "Spectropic, AI, LLama, Mistral, Whisper."
                 webhook:
                   type: string
-                  description: URL to which the transcript will be sent once it is ready. Make sure to use a publicly accessible URL
-                  examples:
-                    - "https://example.com/webhook"
-              required:
-                - file
+                  format: uri
+                vocabulary:
+                  type: string
+                  maxLength: 512
+                language:
+                  type: string
+                model:
+                  type: string
+                  enum: [standard, enhanced]
+                  default: standard
+                numSpeakers:
+                  type: integer
+                  minimum: 1
+                  maximum: 25
       responses:
         "200":
-          description: Returns a status of the transcribe job
+          description: Job created successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  jobId:
-                    type: string
-                    example: "12345678-1234-1234-1234-123456789012"
-                  message:
-                    type: string
-                    example: "Job added to queue"
                   status:
                     type: string
-                    example: "pending"
+                  jobId:
+                    type: string
+                    format: uuid
+                  message:
+                    type: string
         "400":
-          description: Bad request
+          description: Invalid request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  /v1/analyze:
+                $ref: "#/components/schemas/Error"
+        "402":
+          description: Payment required
+        "404":
+          description: Team not found
+
+  /v1/jobs:
+    get:
+      summary: List all jobs
+      parameters:
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: take
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: List of jobs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobsList"
+        "404":
+          description: Team not found
+
+  /v1/jobs/{jobId}:
+    get:
+      summary: Get job details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Job details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TranscriptionJob"
+        "400":
+          description: Invalid job ID
+        "404":
+          description: Job not found
+
+  /v1/test:
+    get:
+      summary: Test API connection
+      responses:
+        "200":
+          description: Test successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
     post:
-      summary: Analyze transcript
-      operationId: analyzeTranscript
-      tags:
-        - Transcripts
+      summary: Test webhook
       requestBody:
-        description: Optional description in *Markdown*
-        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                text:
+                webhook:
                   type: string
-                  description: Transcript text
-                action:
-                  type: string
-                  description: Action to be performed on the transcript. Can be 'summarize', (more actions coming soon).
-                  examples:
-                    - 'summarize'
-                language:
-                  type: string
-                  description: Language of the transcript. If null, the language will be detected automatically. In form of ISO 639-1 code, like "en" or "de"
-                  examples:
-                    - "en"
-              required:
-                - text
-                - action     
+                  format: uri
       responses:
         "200":
-          description: Returns a status of the transcribe job
+          description: Webhook test result
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  jobId:
+                  success:
+                    type: boolean
+                  message:
                     type: string
-                    example: "12345678-1234-1234-1234-123456789012"
-                  text:
-                    type: string
-                    example: "Summarized text"
-                  status:
-                    type: string
-                    example: "succeeded"
-  /v1/jobs:
-    get:
-      summary: Get all jobs
-      operationId: getJobs
-      tags:
-        - Jobs
-      responses:
-        "200":
-          description: Returns a list of all jobs, without the output
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  items:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Job"
-        "400":
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  /v1/jobs/{jobId}:
-    get:
-      summary: Get all jobs
-      operationId: getJobs
-      tags:
-        - Jobs
-      parameters:
-        - name: jobId
-          in: path
-          required: true
-          description: Unique identifier of the job
-          schema:
-            type: string
-            example: "12345678-1234-1234-1234-123456789012"
-      responses:
-        "200":
-          description: Returns a single job by ID
-          content:
-            application/json:
-              schema:
-                  $ref: "#/components/schemas/Job"
-        "400":
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-webhooks:
-  newTranscript:
-    post:
-      requestBody:
-        description: Transcript object
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Transcript"
+                  body:
+                    type: object
