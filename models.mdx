@@ -14,7 +14,7 @@ The Spectropic API currently supports two models for transcription and diraizati
 
 ## Standard model
 
-The standard model is based on Whisper large-v3 for transcription and pyannote.audio 3.3.0 for diraization. It is suitable for most use cases and works well for languages like English, German, French, Spanish, Italian, and Dutch.
+The standard model is based on Whisper large-v3-turbo for transcription and pyannote.audio 3.3.0 for diraization. It is suitable for most use cases and works well for languages like English, German, French, Spanish, Italian, and Dutch.
 
 Costs are `$0.0001` per second of audio equivalent to `$0.36` per hour of audio.
 
@@ -40,7 +40,7 @@ The enhanced model is based on the standard model, but does LLM-based post proce
 
 The enhanced model can work well for languages that are lower in the accuracy of the standard model.
 
-Limitations compared to the standard model:
+#### Limitations compared to the standard model:
 * The enhanced model is slower.
 * Unlike the standard model, the enhanced model does not output word level timestamps and confidence scores.
 * Max input audio input duration is currently *60 minutes* (this will be increased in the near future).
