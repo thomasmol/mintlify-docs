@@ -41,35 +41,18 @@
       "pages": ["introduction", "models"]
     },
     {
-      "group": "Models",
+      "group": "API Reference",
       "pages": [
-        {
-          "group": "Speech to Text",
-          "icon": "messages",
-          "pages": ["models/transcribe/standard", "models/transcribe/enhanced"]
-        },
-        {
-          "group": "Analyze",
-          "icon": "sparkles",
-          "pages": ["models/analyze/standard"]
-        }
+        "api-reference/test",
+        "api-reference/test-webhook",
+        "api-reference/transcribe",
+        "api-reference/list-jobs",
+        "api-reference/get-job"
       ]
     },
     {
-      "group": "Test",
-      "pages": ["api-reference/test", "api-reference/test-webhook"]
-    },
-    {
-      "group": "Speech to Text",
-      "pages": ["api-reference/transcribe", "api-reference/schemas/transcript"]
-    },
-    {
-      "group": "Analyze",
-      "pages": ["api-reference/analyze"]
-    },
-    {
-      "group": "Jobs",
-      "pages": ["api-reference/list-jobs", "api-reference/retrieve-job"]
+      "group": "Schemas",
+      "pages": ["api-reference/schemas/transcript"]
     },
     {
       "group": "Resources",
